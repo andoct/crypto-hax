@@ -12,7 +12,7 @@ require 'satoshi-unit'
 
 require './bitcoin_rpc'
 
-@UNMATCHED_IDENTIFIER = "X"
+@UNMATCHED_IDENTIFIER = "$XoX$"
 # Pry::ColorPrinter.pp transaction
 
 def row_to_transaction(row)
@@ -140,6 +140,7 @@ if output_file.empty?
   puts "No destination CSV specified. Using default #{output_file}"
 end
 
+puts "Processing input"
 input_file = options[:source_tsv]
 transactions = CSV.open(input_file, "r", { :col_sep => "\t" }).map { |row| row_to_transaction row }
 
@@ -154,6 +155,7 @@ puts "OUTPUT FILE: #{output_file}"
 
 previously_saved_transactions = []
 if File.file?(output_file)
+  puts "Processing previously saved output"
   previously_saved_transactions = CSV.open(output_file, "r").map { |row| row_to_transaction row }
   puts "#{previously_saved_transactions.length - 1} transactions have already been processed. Re-using work." if previously_saved_transactions.length > 1
 end
